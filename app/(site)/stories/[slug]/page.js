@@ -1,13 +1,16 @@
-import { stories } from '../../../../data/stories';
+import { supabase } from '../../../../lib/supabaseClient';
 import ShareButton from '../../../components/ShareButton';
 import { notFound } from 'next/navigation';
 
-export function generateStaticParams() {
-  return stories.map((s) => ({ slug: s.slug }));
-}
+export const dynamic = 'force-dynamic';
 
-export default function StoryPage({ params }) {
-  const story = stories.find((s) => s.slug === params.slug);
+export default async function StoryPage({ params }) {
+  const { data: story } = await supabase
+    .from('stories')
+    .select('*')
+    .eq('slug', params.slug)
+    .single();
+
   if (!story) return notFound();
 
   return (
@@ -20,7 +23,7 @@ export default function StoryPage({ params }) {
       </div>
       <div className="story-detail-frame">
         <iframe
-          src={`https://www.youtube.com/embed/${story.youtubeId}`}
+          src={`https://www.youtube.com/embed/${story.youtube_id}`}
           title={story.title}
           allowFullScreen
         />
