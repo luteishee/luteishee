@@ -3,11 +3,13 @@ import Link from 'next/link';
 export default function Home() {
   return (
     <section className="home-hero">
-      <div className="stripes" aria-hidden="true">
-        <div className="stripe stripe-1"></div>
-        <div className="stripe stripe-2"></div>
-        <div className="stripe stripe-3"></div>
-        <div className="stripe stripe-4"></div>
+      <div className="topo-lines" aria-hidden="true">
+        <svg viewBox="0 0 1200 800" preserveAspectRatio="none">
+          <path className="topo-path topo-1" d="M-50,600 C200,550 400,650 600,600 C800,550 1000,600 1250,560" />
+          <path className="topo-path topo-2" d="M-50,650 C250,600 450,700 650,650 C850,600 1050,650 1250,610" />
+          <path className="topo-path topo-3" d="M-50,700 C300,650 500,750 700,700 C900,650 1100,700 1250,660" />
+          <path className="topo-path topo-4" d="M-50,550 C200,500 400,600 600,550 C800,500 1000,550 1250,510" />
+        </svg>
       </div>
 
       <div className="hero-content">
