@@ -9,5 +9,16 @@ export default async function MapPage() {
     .select('*')
     .not('lat', 'is', null);
 
-  return <MapClient stories={stories || []} />;
+  return (
+    <div>
+      <h1 className="page-title">Карта поездок</h1>
+      {stories && stories.length > 0 ? (
+        <MapClient stories={stories} />
+      ) : (
+        <div className="placeholder-block">
+          Карта пока пуста — добавьте первую поездку в админке
+        </div>
+      )}
+    </div>
+  );
 }
