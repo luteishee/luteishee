@@ -3,13 +3,16 @@ import { supabase } from '../../../lib/supabaseClient';
 import VideoFrame from '../../components/VideoFrame';
 
 export const dynamic = 'force-dynamic';
-export const revalidate = 0;
 
 export default async function StoriesPage() {
-  const { data: stories } = await supabase
+  const { data: stories, error } = await supabase
     .from('stories')
     .select('*')
     .order('created_at', { ascending: false });
+
+  if (error) {
+    console.error(error);
+  }
 
   return (
     <div>
@@ -31,4 +34,9 @@ export default async function StoriesPage() {
                 <span>{s.date}</span>
               </div>
             </div>
-         
+          </Link>
+        ))}
+      </div>
+    </div>
+  );
+}
