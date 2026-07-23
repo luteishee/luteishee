@@ -33,6 +33,8 @@ a { text-decoration: none; color: inherit; }
   justify-content: space-between;
   padding: 24px 24px;
   border-bottom: 1px solid rgba(43,46,47,0.08);
+  position: relative;
+  z-index: 100;
 }
 .logo-text {
   font-weight: 800;
@@ -53,36 +55,45 @@ a { text-decoration: none; color: inherit; }
 
 .burger {
   display: none;
-  font-size: 24px;
+  font-size: 28px;
   background: none;
   border: none;
   cursor: pointer;
+  z-index: 101;
+  position: relative;
+  padding: 8px 12px;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  color: var(--graphite-dark);
 }
 
 @media (max-width: 720px) {
   .nav { display: none; }
   .nav.open {
-    display: flex !important;
+    display: flex;
     flex-direction: column;
     position: absolute;
     top: 100%;
-    right: 0;
     left: 0;
-    background: var(--white-warm) !important;
+    right: 0;
+    background: var(--white-warm);
     padding: 20px 24px;
-    gap: 16px;
+    gap: 4px;
     border-bottom: 1px solid rgba(0,0,0,0.06);
+    box-shadow: 0 12px 24px rgba(0,0,0,0.08);
     z-index: 99;
-    min-height: 100px;
-    border: 3px solid red;
   }
   .nav.open a {
-    color: black !important;
-    font-size: 18px !important;
-    padding: 8px 0;
+    color: var(--graphite-dark);
+    font-size: 17px;
+    font-weight: 600;
+    padding: 12px 0;
+    opacity: 1;
+    border-bottom: 1px solid rgba(0,0,0,0.04);
   }
   .burger { display: block; }
 }
+
 
 
 /* ===== FOOTER ===== */
