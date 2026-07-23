@@ -1,5 +1,6 @@
 import { supabase } from '../../../../lib/supabaseClient';
 import ShareButton from '../../../components/ShareButton';
+import VideoFrame from '../../../components/VideoFrame';
 import { notFound } from 'next/navigation';
 
 export const dynamic = 'force-dynamic';
@@ -21,13 +22,12 @@ export default async function StoryPage({ params }) {
         <span>·</span>
         <span>{story.date}</span>
       </div>
-      <div className="story-detail-frame">
-        <iframe
-          src={`https://www.youtube.com/embed/${story.youtube_id}`}
-          title={story.title}
-          allowFullScreen
-        />
-      </div>
+      <VideoFrame
+        platform={story.platform}
+        videoData={story.video_data}
+        title={story.title}
+        className="story-detail-frame"
+      />
       <p style={{ fontSize: 16, lineHeight: 1.6, opacity: 0.85 }}>
         {story.description}
       </p>
