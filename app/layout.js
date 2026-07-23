@@ -3,8 +3,9 @@ import './globals.css';
 
 const manrope = Manrope({
   subsets: ['latin', 'cyrillic'],
-  weight: ['400', '500', '700', '800'],
+  weight: ['400', '500', '600', '700', '800'],
   variable: '--font-manrope',
+  display: 'swap',
 });
 
 export const metadata = {
@@ -14,8 +15,8 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="ru">
-      <body className={manrope.variable}>{children}</body>
+    <html lang="ru" className={manrope.variable}>
+      <body>{children}</body>
     </html>
   );
 }
