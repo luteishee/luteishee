@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { supabase } from '../../../lib/supabaseClient';
-import VideoFrame from '../../components/VideoFrame';
+import VideoFrame from '../../../app/components/VideoFrame';
 
 export const dynamic = 'force-dynamic';
 
