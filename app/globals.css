@@ -140,6 +140,7 @@ a { text-decoration: none; color: inherit; }
   opacity: 0.6;
 }
 
+
 /* ===== HOME ===== */
 .home-hero {
   position: relative;
@@ -153,24 +154,36 @@ a { text-decoration: none; color: inherit; }
   background: linear-gradient(180deg, var(--white-warm) 0%, var(--sand-light) 100%);
 }
 
-.topo-lines {
+/* Анимированные горизонтальные полоски */
+.stripes {
   position: absolute;
   inset: 0;
   z-index: 0;
-  opacity: 0.5;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  opacity: 0.35;
 }
-.topo-lines svg {
-  width: 100%;
-  height: 100%;
+
+.stripe {
+  height: 1px;
+  width: 200%;
+  background: linear-gradient(90deg, transparent, var(--green-dark) 20%, var(--sand) 50%, var(--green-dark) 80%, transparent);
 }
-.topo-path {
-  fill: none;
-  stroke-width: 1.4;
+
+.stripe-1 { animation: stripeMove 18s linear infinite; }
+.stripe-2 { animation: stripeMoveReverse 22s linear infinite; opacity: 0.7; }
+.stripe-3 { animation: stripeMove 26s linear infinite; opacity: 0.5; }
+.stripe-4 { animation: stripeMoveReverse 20s linear infinite; opacity: 0.6; }
+
+@keyframes stripeMove {
+  from { transform: translateX(-50%); }
+  to { transform: translateX(0%); }
 }
-.topo-1 { stroke: var(--green-dark); opacity: 0.25; }
-.topo-2 { stroke: var(--graphite-dark); opacity: 0.15; }
-.topo-3 { stroke: var(--sand); opacity: 0.5; }
-.topo-4 { stroke: var(--green-dark); opacity: 0.15; }
+@keyframes stripeMoveReverse {
+  from { transform: translateX(0%); }
+  to { transform: translateX(-50%); }
+}
 
 .hero-content {
   position: relative;
@@ -178,6 +191,14 @@ a { text-decoration: none; color: inherit; }
   padding: 40px 24px;
   max-width: 640px;
   animation: heroFadeIn 1.1s ease both;
+}
+
+.hero-illustration {
+  max-width: 320px;
+  width: 100%;
+  height: auto;
+  margin: 0 auto 32px;
+  display: block;
 }
 
 .hero-eyebrow {
@@ -189,17 +210,6 @@ a { text-decoration: none; color: inherit; }
   margin: 0 0 20px;
   animation: heroFadeIn 0.9s ease both;
   animation-delay: 0.1s;
-}
-
-.hero-logo {
-  font-size: clamp(48px, 10vw, 96px);
-  font-weight: 800;
-  letter-spacing: 0.02em;
-  color: var(--graphite-dark);
-  margin: 0 0 24px;
-  line-height: 1;
-  animation: heroFadeIn 1s ease both;
-  animation-delay: 0.25s;
 }
 
 .hero-subtitle {
@@ -248,8 +258,10 @@ a { text-decoration: none; color: inherit; }
 }
 
 @media (max-width: 600px) {
-  .topo-lines { opacity: 0.35; }
+  .stripes { opacity: 0.2; }
+  .hero-illustration { max-width: 240px; }
 }
+
 
 /* ===== STORIES ===== */
 .stories-grid {
