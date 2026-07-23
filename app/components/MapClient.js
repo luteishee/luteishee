@@ -1,38 +1,57 @@
 'use client';
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
-import Link from 'next/link';
-import 'leaflet/dist/leaflet.css';
-import L from 'leaflet';
-
-const icon = new L.Icon({
-  iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-  shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
-  iconSize: [25, 41],
-  iconAnchor: [12, 41],
-});
+import { useEffect, useRef } from 'react';
+import maplibregl from 'maplibre-gl';
+import 'maplibre-gl/dist/maplibre-gl.css';
 
 export default function MapClient({ stories }) {
-  const center = stories.length
-    ? [stories[0].lat, stories[0].lng]
-    : [46.35, 48.03];
+  const mapContainer = useRef(null);
+  const mapRef = useRef(null);
 
-  return (
-    <div style={{ height: '75vh', borderRadius: 18, overflow: 'hidden', margin: '32px 0' }}>
-      <MapContainer center={center} zoom={6} style={{ height: '100%', width: '100%' }}>
-        <TileLayer
-          url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
-          attribution='&copy; OpenStreetMap &copy; CARTO'
-        />
-        {stories.map((s) => (
-          <Marker key={s.slug} position={[s.lat, s.lng]} icon={icon}>
-            <Popup>
-              <strong>{s.title}</strong><br />
-              {s.location}<br />
-              <Link href={`/stories/${s.slug}`}>Смотреть →</Link>
-            </Popup>
-          </Marker>
-        ))}
-      </MapContainer>
-    </div>
-  );
+  useEffect(() => {
+    if (mapRef.current) return;
+
+    const center = stories.length
+      ? [stories[0].lng, stories[0].lat]
+      : [48.03, 46.35];
+
+    const map = new maplibregl.Map({
+      container: mapContainer.current,
+      style: 'https://basemaps.cartocdn.com/gl/positron-gl-style/style.json',
+      center,
+      zoom: 6,
+    });
+
+    map.addControl(new maplibregl.NavigationControl(), 'top-right');
+
+    map.on('load', () => {
+      stories.forEach((s) => {
+        if (!s.lat || !s.lng) return;
+
+        const el = document.createElement('div');
+        el.className = 'map-marker';
+
+        const popupHtml = `
+          <div style="font-family: inherit; padding: 6px 2px;">
+            <strong style="display:block;margin-bottom:4px;font-size:15px;">${s.title}</strong>
+            <span style="font-size:13px;opacity:0.65;display:block;margin-bottom:10px;">${s.location}</span>
+            <a href="/stories/${s.slug}" style="color:#33473A;font-weight:700;font-size:14px;">Смотреть →</a>
+          </div>
+        `;
+
+        new maplibregl.Marker({ element: el })
+          .setLngLat([s.lng, s.lat])
+          .setPopup(new maplibregl.Popup({ offset: 22 }).setHTML(popupHtml))
+          .addTo(map);
+      });
+    });
+
+    mapRef.current = map;
+
+    return () => {
+      map.remove();
+      mapRef.current = null;
+    };
+  }, [stories]);
+
+  return <div ref={mapContainer} className="map-container" />;
 }
