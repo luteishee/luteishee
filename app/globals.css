@@ -154,36 +154,29 @@ a { text-decoration: none; color: inherit; }
   background: linear-gradient(180deg, var(--white-warm) 0%, var(--sand-light) 100%);
 }
 
-/* Анимированные горизонтальные полоски */
-.stripes {
+.topo-lines {
   position: absolute;
   inset: 0;
   z-index: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-  opacity: 0.35;
+  opacity: 0.5;
+}
+.topo-lines svg {
+  width: 100%;
+  height: 100%;
+}
+.topo-path {
+  fill: none;
+  stroke-width: 1.4;
+}
+.topo-1 { stroke: var(--green-dark); opacity: 0.25; }
+.topo-2 { stroke: var(--graphite-dark); opacity: 0.15; }
+.topo-3 { stroke: var(--sand); opacity: 0.5; }
+.topo-4 { stroke: var(--green-dark); opacity: 0.15; }
+
+@media (max-width: 600px) {
+  .topo-lines { opacity: 0.35; }
 }
 
-.stripe {
-  height: 1px;
-  width: 200%;
-  background: linear-gradient(90deg, transparent, var(--green-dark) 20%, var(--sand) 50%, var(--green-dark) 80%, transparent);
-}
-
-.stripe-1 { animation: stripeMove 18s linear infinite; }
-.stripe-2 { animation: stripeMoveReverse 22s linear infinite; opacity: 0.7; }
-.stripe-3 { animation: stripeMove 26s linear infinite; opacity: 0.5; }
-.stripe-4 { animation: stripeMoveReverse 20s linear infinite; opacity: 0.6; }
-
-@keyframes stripeMove {
-  from { transform: translateX(-50%); }
-  to { transform: translateX(0%); }
-}
-@keyframes stripeMoveReverse {
-  from { transform: translateX(0%); }
-  to { transform: translateX(-50%); }
-}
 
 .hero-content {
   position: relative;
