@@ -3,6 +3,8 @@ import { supabase } from '../../../lib/supabaseClient';
 import VideoFrame from '../../components/VideoFrame';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 
 export default async function StoriesPage() {
   const { data: stories, error } = await supabase
