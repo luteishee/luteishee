@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 const inputStyle = {
   padding: '14px 16px', borderRadius: 12,
@@ -27,6 +27,20 @@ export default function AdminPage() {
   const [lng, setLng] = useState('');
   const [suggestions, setSuggestions] = useState([]);
   const [status, setStatus] = useState('');
+  const [stories, setStories] = useState([]);
+  const [loadingList, setLoadingList] = useState(true);
+
+  const loadStories = async () => {
+    setLoadingList(true);
+    const res = await fetch('/api/get-stories');
+    const data = await res.json();
+    setStories(data.stories || []);
+    setLoadingList(false);
+  };
+
+  useEffect(() => {
+    loadStories();
+  }, []);
 
   const searchLocation = async (query) => {
     setLocation(query);
@@ -55,18 +69,40 @@ export default function AdminPage() {
     if (res.ok) {
       setStatus('Готово! История опубликована 🎉');
       setVideoUrl(''); setTitle(''); setDescription(''); setDate(''); setLocation(''); setLat(''); setLng('');
+      loadStories();
     } else {
       setStatus('Ошибка: ' + data.error);
     }
   };
 
+  const handleDelete = async (slug, storyTitle) => {
+    if (!password) {
+      alert('Сначала введите пароль администратора в форме выше');
+      return;
+    }
+    const confirmed = confirm(`Удалить историю «${storyTitle}»? Это действие нельзя отменить.`);
+    if (!confirmed) return;
+
+    const res = await fetch('/api/delete-story', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ password, slug }),
+    });
+    const data = await res.json();
+    if (res.ok) {
+      loadStories();
+    } else {
+      alert('Ошибка: ' + data.error);
+    }
+  };
+
   return (
-    <div style={{ maxWidth: 560, margin: '0 auto', paddingBottom: 60 }}>
+    <div style={{ maxWidth: 640, margin: '0 auto', paddingBottom: 60 }}>
       <h1 className="page-title">Новая история</h1>
       <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 16, marginTop: 24 }}>
         <input type="password" placeholder="Пароль администратора" value={password}
           onChange={(e) => setPassword(e.target.value)} required style={inputStyle} />
-        <input type="text" placeholder="Ссылка на видео (YouTube)" value={videoUrl}
+        <input type="text" placeholder="Ссылка на видео (YouTube, VK или Rutube)" value={videoUrl}
           onChange={(e) => setVideoUrl(e.target.value)} required style={inputStyle} />
         <input type="text" placeholder="Название истории" value={title}
           onChange={(e) => setTitle(e.target.value)} required style={inputStyle} />
@@ -90,6 +126,41 @@ export default function AdminPage() {
         </button>
         {status && <p style={{ opacity: 0.7 }}>{status}</p>}
       </form>
+
+      <div style={{ marginTop: 64 }}>
+        <h2 style={{ fontSize: 24, fontWeight: 800, marginBottom: 20 }}>Все истории ({stories.length})</h2>
+
+        {loadingList && <p style={{ opacity: 0.6 }}>Загрузка...</p>}
+
+        {!loadingList && stories.length === 0 && (
+          <p style={{ opacity: 0.6 }}>Историй пока нет</p>
+        )}
+
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+          {stories.map((s) => (
+            <div key={s.slug} style={{
+              display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+              padding: '14px 18px', background: 'white', borderRadius: 14,
+              boxShadow: '0 2px 10px rgba(0,0,0,0.05)',
+            }}>
+              <div>
+                <div style={{ fontWeight: 700, fontSize: 15 }}>{s.title}</div>
+                <div style={{ fontSize: 13, opacity: 0.6 }}>{s.location} · {s.date}</div>
+              </div>
+              <button
+                onClick={() => handleDelete(s.slug, s.title)}
+                style={{
+                  background: '#c94b4b', color: 'white', border: 'none',
+                  padding: '8px 16px', borderRadius: 999, fontSize: 13,
+                  fontWeight: 600, cursor: 'pointer', flexShrink: 0, marginLeft: 12,
+                }}
+              >
+                Удалить
+              </button>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }
