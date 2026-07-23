@@ -8,19 +8,5 @@ export default function Header() {
 
   return (
     <header className="header">
-      <Link href="/" className="logo-link" onClick={closeMenu}>
-        <img src="/logo.png" alt="Лютейшее" className="logo-img" />
-      </Link>
+      <Link href="/" className="logo-text" onClick={closeMenu}>ЛЮТЕЙШЕЕ</Link>
       <button className="burger" onClick={() => setOpen(!open)}>
-        {open ? '✕' : '☰'}
-      </button>
-      <nav className={`nav ${open ? 'open' : ''}`}>
-        <Link href="/" onClick={closeMenu}>Главная</Link>
-        <Link href="/stories" onClick={closeMenu}>Истории</Link>
-        <Link href="/map" onClick={closeMenu}>Карта</Link>
-        <Link href="/gallery" onClick={closeMenu}>Галерея</Link>
-        <Link href="/about" onClick={closeMenu}>Обо мне</Link>
-      </nav>
-    </header>
-  );
-}
