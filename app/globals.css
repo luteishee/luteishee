@@ -522,5 +522,15 @@ a { text-decoration: none; color: inherit; }
   height: 32px;
   width: auto;
 }
+.hero-logo {
+  font-size: clamp(48px, 10vw, 96px);
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  color: var(--graphite-dark);
+  margin: 0 0 24px;
+  line-height: 1;
+  animation: heroFadeIn 1s ease both;
+  animation-delay: 0.25s;
+}
 
 
