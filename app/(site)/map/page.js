@@ -2,6 +2,8 @@ import { supabase } from '../../../lib/supabaseClient';
 import MapClient from '../../components/MapClient';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 
 export default async function MapPage() {
   const { data: stories } = await supabase
