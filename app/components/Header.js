@@ -4,16 +4,21 @@ import Link from 'next/link';
 
 export default function Header() {
   const [open, setOpen] = useState(false);
+
+  const closeMenu = () => setOpen(false);
+
   return (
     <header className="header">
-      <Link href="/" className="logo-text">ЛЮТЕЙШЕЕ</Link>
-      <button className="burger" onClick={() => setOpen(!open)}>☰</button>
+      <Link href="/" className="logo-text" onClick={closeMenu}>ЛЮТЕЙШЕЕ</Link>
+      <button className="burger" onClick={() => setOpen(!open)}>
+        {open ? '✕' : '☰'}
+      </button>
       <nav className={`nav ${open ? 'open' : ''}`}>
-        <Link href="/">Главная</Link>
-        <Link href="/stories">Истории</Link>
-        <Link href="/map">Карта</Link>
-        <Link href="/gallery">Галерея</Link>
-        <Link href="/about">Обо мне</Link>
+        <Link href="/" onClick={closeMenu}>Главная</Link>
+        <Link href="/stories" onClick={closeMenu}>Истории</Link>
+        <Link href="/map" onClick={closeMenu}>Карта</Link>
+        <Link href="/gallery" onClick={closeMenu}>Галерея</Link>
+        <Link href="/about" onClick={closeMenu}>Обо мне</Link>
       </nav>
     </header>
   );
