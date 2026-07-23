@@ -1,7 +1,13 @@
-export default function MapPage() {
-  return (
-    <div className="placeholder-block">
-      Карта поездок появится здесь совсем скоро 🗺
-    </div>
-  );
+import { supabase } from '../../../lib/supabaseClient';
+import MapClient from '../../components/MapClient';
+
+export const dynamic = 'force-dynamic';
+
+export default async function MapPage() {
+  const { data: stories } = await supabase
+    .from('stories')
+    .select('*')
+    .not('lat', 'is', null);
+
+  return <MapClient stories={stories || []} />;
 }
