@@ -4,12 +4,13 @@ import Link from 'next/link';
 
 export default function Header() {
   const [open, setOpen] = useState(false);
-
   const closeMenu = () => setOpen(false);
 
   return (
     <header className="header">
-      <Link href="/" className="logo-text" onClick={closeMenu}>ЛЮТЕЙШЕЕ</Link>
+      <Link href="/" className="logo-link" onClick={closeMenu}>
+        <img src="/logo.png" alt="Лютейшее" className="logo-img" />
+      </Link>
       <button className="burger" onClick={() => setOpen(!open)}>
         {open ? '✕' : '☰'}
       </button>
