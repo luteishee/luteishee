@@ -11,9 +11,9 @@ export default function Home() {
       </div>
 
       <div className="hero-content">
-        <img src="/hero-illustration.png" alt="Лютейшее" className="hero-illustration" />
-
         <p className="hero-eyebrow">Личный архив путешествий</p>
+
+        <h1 className="hero-logo">ЛЮТЕЙШЕЕ</h1>
 
         <p className="hero-subtitle">
           Рыбалка, дорога, друзья и семья —<br />
