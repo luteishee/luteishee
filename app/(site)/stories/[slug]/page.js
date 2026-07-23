@@ -4,6 +4,8 @@ import VideoFrame from '../../../components/VideoFrame';
 import { notFound } from 'next/navigation';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 
 export default async function StoryPage({ params }) {
   const { data: story } = await supabase
